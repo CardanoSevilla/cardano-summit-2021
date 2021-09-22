@@ -11,6 +11,7 @@ import BgImage from "../../assets/img/illustrations/signin.svg";
 
 import { useParams } from 'react-router';
 import {useLocation} from "react-router-dom";
+import {checkValidationList, inputValidate} from "../../utils/utils";
 
 const codec = require('json-url')('lzw');
 
@@ -22,18 +23,25 @@ var theWorstHashEver = function(s) {
 
 
 export default () => {
-  const search = useLocation().search;
-  const uuid = new URLSearchParams(search).get('uuid');
-  const [values,setValues]=useState({
-    uuid,
-    username:"",
-    fullname:""
-  });
+    const search = useLocation().search;
+    const uuid = new URLSearchParams(search).get('uuid');
+    const [values,setValues] = useState({
+        uuid,
+        username: "",
+        fullname: "",
+        checkbox: ""
+    });
+    const [validValues,setValidValues] = useState({
+        uuid: true,
+        username: false,
+        fullname: false,
+        checkbox: false
+    });
 
-  const handle=`@${values.username}`;
-  const issuedAt=Math.floor(Date.now() / 1000);
-  const expirationDelta=(60*60*24*2);
-  const gcCodeTemplate = {
+    const handle=`@${values.username}`;
+    const issuedAt=Math.floor(Date.now() / 1000);
+    const expirationDelta=(60*60*24*2);
+    const gcCodeTemplate = {
     "type": "tx",
     "ttl": 180,
     "title": "Tu Cardano Summit 2021 Sevilla IDNFT",
@@ -121,19 +129,47 @@ export default () => {
             }
         }
     }
-  };
-  console.log({values,gcCodeTemplate});
+    };
+    console.log({values,gcCodeTemplate});
 
-  const onValueChange=(field)=>(event)=>{
-    setValues({...values, [field]:event.target.value});
-  }
-  const onSubmit=(event)=>{
-    event.preventDefault();
-    codec.compress(gcCodeTemplate).then(result => {
-      window.location.href = `https://testnet-wallet.gamechanger.finance/api/1/tx/${result}`;      
-    });
-  }
+    const onValueChange=(field)=>(event)=>{
 
+        setValues({...values, [field]:event.target.value});
+
+        // Check if the input pass all regex match list
+        const validatedList = inputValidate(event.target.value);
+
+        // Get if all regexs are valid
+        const validInput = checkValidationList(validatedList);
+        setValidValues({...validValues, [field]:validInput});
+
+        console.log('Input:\t'+field);
+        console.log('Value:\t'+event.target.value);
+        console.log('List of validations:');
+        console.log(validatedList);
+        console.log('Is valid?');
+        console.log(validInput);
+    }
+    const onSubmit=(event)=>{
+        event.preventDefault();
+        codec.compress(gcCodeTemplate).then(result => {
+          window.location.href = `https://testnet-wallet.gamechanger.finance/api/1/tx/${result}`;
+        });
+    }
+
+    const onCheckBoxChange= (field)=>(event)=>{
+        setValidValues({...validValues, [field]:event.target.checked});
+    }
+
+
+    console.log("Validators");
+    console.log(validValues.fullname);
+    console.log(validValues.username);
+    console.log(validValues.checkbox);
+
+    const formIsValid = validValues.fullname && validValues.username && validValues.checkbox;
+    console.log("formIsValid");
+    console.log(formIsValid);
   return (
     <main>
       <section className="d-flex align-items-center my-5 mt-lg-6 mb-lg-5">
@@ -174,14 +210,14 @@ export default () => {
                       <Form.Control onChange={onValueChange("fullname")} autoFocus type="text" placeholder="" />
                     </InputGroup>
                   </Form.Group>
-                  <FormCheck type="checkbox" className="d-flex mb-4">
-                    <FormCheck.Input required id="terms" className="me-2" />
+                  <FormCheck  type="checkbox" className="d-flex mb-4">
+                    <FormCheck.Input onChange={onCheckBoxChange("checkbox")} required id="terms" className="me-2" />
                     <FormCheck.Label htmlFor="terms">
                       Estoy de acuerdo con los <Card.Link>términos y condiciones</Card.Link>
                     </FormCheck.Label>
                   </FormCheck>
 
-                  <Button onClick={onSubmit} variant="primary" type="submit" className="w-100">
+                  <Button disabled={!formIsValid} onClick={onSubmit} variant="primary" type="submit" className="w-100">
                     Sign up
                   </Button>
                 </Form>
