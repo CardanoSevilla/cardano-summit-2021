@@ -25,13 +25,11 @@ import "@fortawesome/fontawesome-free/css/all.css";
 import "react-datetime/css/react-datetime.css";
 
 import HomePage from "./pages/HomePage";
-import SignUp from "./pages-summit/examples/Signup";
-import ScrollToTop from "./components/ScrollToTop";
+//import ScrollToTop from "./components/ScrollToTop";
 
 ReactDOM.render(
   <HashRouter>
-    <ScrollToTop />
-    <SignUp />
+    <HomePage />
   </HashRouter>,
   document.getElementById("root")
 );

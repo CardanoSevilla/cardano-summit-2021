@@ -2,52 +2,28 @@ import React, { useState, useEffect } from 'react';
 import { Route, Switch, Redirect } from "react-router-dom";
 import { Routes } from "../routes";
 
-// pages
-import Presentation from "./Presentation";
-import Upgrade from "./Upgrade";
-import DashboardOverview from "./dashboard/DashboardOverview";
-import Transactions from "./Transactions";
-import Settings from "./Settings";
-import BootstrapTables from "./tables/BootstrapTables";
 import Signin from "./examples/Signin";
-import Signup from "./examples/Signup";
-import ForgotPassword from "./examples/ForgotPassword";
-import ResetPassword from "./examples/ResetPassword";
-import Lock from "./examples/Lock";
-import NotFoundPage from "./examples/NotFound";
-import ServerError from "./examples/ServerError";
 
-// documentation pages
-import DocsOverview from "./documentation/DocsOverview";
-import DocsDownload from "./documentation/DocsDownload";
-import DocsQuickStart from "./documentation/DocsQuickStart";
-import DocsLicense from "./documentation/DocsLicense";
-import DocsFolderStructure from "./documentation/DocsFolderStructure";
-import DocsBuild from "./documentation/DocsBuild";
-import DocsChangelog from "./documentation/DocsChangelog";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleLeft, faEnvelope, faUnlockAlt } from "@fortawesome/free-solid-svg-icons";
+import { faFacebookF, faGithub, faTwitter } from "@fortawesome/free-brands-svg-icons";
+import { Col, Row, Form, Card, Button, FormCheck, Container, InputGroup } from '@themesberg/react-bootstrap';
+import { Link } from 'react-router-dom';
 
-// components
-import Sidebar from "../components/Sidebar";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+import BgImage from "../assets/img/illustrations/signin.svg";
 import Preloader from "../components/Preloader";
 
-import Accordion from "./components/Accordion";
-import Alerts from "./components/Alerts";
-import Badges from "./components/Badges";
-import Breadcrumbs from "./components/Breadcrumbs";
-import Buttons from "./components/Buttons";
-import Forms from "./components/Forms";
-import Modals from "./components/Modals";
-import Navs from "./components/Navs";
-import Navbars from "./components/Navbars";
-import Pagination from "./components/Pagination";
-import Popovers from "./components/Popovers";
-import Progress from "./components/Progress";
-import Tables from "./components/Tables";
-import Tabs from "./components/Tabs";
-import Tooltips from "./components/Tooltips";
-import Toasts from "./components/Toasts";
+import { useParams } from 'react-router';
+import {useLocation} from "react-router-dom";
+import {checkValidationList, inputValidate} from "../utils/utils";
+
+const codec = require('json-url')('lzw');
+
+var theWorstHashEver = function(s) {
+  for(var i = 0, h = 0xdeadbeef; i < s.length; i++)
+      h = Math.imul(h ^ s.charCodeAt(i), 2654435761);
+  return String((h ^ h >>> 16) >>> 0);
+};
 
 const RouteWithLoader = ({ component: Component, ...rest }) => {
   const [loaded, setLoaded] = useState(false);
@@ -62,87 +38,211 @@ const RouteWithLoader = ({ component: Component, ...rest }) => {
   );
 };
 
-const RouteWithSidebar = ({ component: Component, ...rest }) => {
-  const [loaded, setLoaded] = useState(false);
+export default () => {
+    const search = useLocation().search;
+    const uuid = new URLSearchParams(search).get('uuid');
+    const [values,setValues] = useState({
+        uuid,
+        username: "",
+        fullname: "",
+        checkbox: ""
+    });
+    const [validValues,setValidValues] = useState({
+        uuid: true,
+        username: false,
+        fullname: false,
+        checkbox: false
+    });
 
-  useEffect(() => {
-    const timer = setTimeout(() => setLoaded(true), 1000);
-    return () => clearTimeout(timer);
-  }, []);
+    const handle=`@${values.username}`;
+    const issuedAt=Math.floor(Date.now() / 1000);
+    const expirationDelta=(60*60*24*2);
+    const gcCodeTemplate = {
+    "type": "tx",
+    "ttl": 180,
+    "title": "Tu Cardano Summit 2021 Sevilla IDNFT",
+    "description": `Hola ${values.fullname}! Estás por crear tu NFT conmemorativo de la asistencia al Cardano Summit 2021 en Sevilla. También será válido como token de identidad para acceder a la web oficial :)`,
+    "mints": [
+        {
+            "script": {
+                "issuers": [
+                    {
+                        "accountIndex": 0,
+                        "addressIndex": 0
+                    }
+                ],
+                "beforeSlotOffset": 300
+            },
+            "assets": [
+                {
+                    "assetName": handle,
+                    "quantity": "1"
+                }
+            ]
+        },
+        {
+            "script": {
+                "issuers": [
+                    {
+                        "accountIndex": 1,
+                        "addressIndex": 1
+                    }
+                ],
+                "beforeSlotOffset": 300
+            },
+            "assets": [
+                {
+                    "assetName": handle,
+                    "quantity": "1"
+                }
+            ]
+        }
+    ],
+    "metadata": {
+        "721": {
+            "0": {
+                [handle]: {
+                    "url": "cardanosevilla.github.io/summit2021",
+                    "name": "Recuerdo Cardano Summit Sevilla 2021",
+                    "author": ["Roberto C. Morano <rcmorano@gimbalabs.io>", "Adriano Fiorenza <placeholder>"],
+                    "image": "ipfs://QmUHfKLkwre92ue44vGHAvzEwi44nGTqGozsSy4KEKB1eF",
+                    "version": "1.0",
+                    "mediaType": "image/png",
+                    "files": [
+                        {
+                            "name": "CardanoSummitSevilla2021 Badge #nnnnn",
+                            "mediaType": "image/png",
+                            "src": "ipfs://QmUHfKLkwre92ue44vGHAvzEwi44nGTqGozsSy4KEKB1eF",
+                            "sha256": "c789e67be7becbb6b01a37be2f95d8d8f8a03cd64f379c45a2b7c038c1d3a487"
+                        }
+                    ]
+                }
+            }
+        },
+        "7368": {
+            "1": {
+                [handle]: {
+                    "avatar": {
+                        "src": "ipfs://QmUHfKLkwre92ue44vGHAvzEwi44nGTqGozsSy4KEKB1eF",
+                    },
+                    "iss": "https://cardanosevilla.github.io",
+                    "aud": [
+                        "https://cardanosevilla.io"
+                    ],
+                    "iat": String(issuedAt),
+                    "nbf": String(issuedAt),
+                    "exp": String(issuedAt + expirationDelta ),
+                    "sub": "id-"+theWorstHashEver(`${values.uuid}-${values.username}-${String(Date.now())}-${issuedAt}`),
+                    "id": values.uuid,
+                    "name": values.fullname,
+                    "dom": "cardanosevilla",
+                    extras:{
+                      "url": "cardanosevilla.github.io/cardano-summit-2021",
+                      "name": "Acreditación Cardano Summit Sevilla 2021",
+                      "author": ["Roberto C. Morano <rcmorano@gimbalabs.io>", "Adriano Fiorenza <placeholder>"],
+                    }
+                }
+            }
+        }
+      }
+    };
+    console.log({values,gcCodeTemplate});
 
-  const localStorageIsSettingsVisible = () => {
-    return localStorage.getItem('settingsVisible') === 'false' ? false : true
-  }
+    const onValueChange=(field)=>(event)=>{
+        setValues({...values, [field]:event.target.value});
 
-  const [showSettings, setShowSettings] = useState(localStorageIsSettingsVisible);
+        // Check if the input pass all regex match list
+        const validatedList = inputValidate(event.target.value);
 
-  const toggleSettings = () => {
-    setShowSettings(!showSettings);
-    localStorage.setItem('settingsVisible', !showSettings);
-  }
+        // Get if all regexs are valid
+        const validInput = checkValidationList(validatedList);
+        setValidValues({...validValues, [field]:validInput});
+
+    }
+    const onSubmit=(event)=>{
+        event.preventDefault();
+        codec.compress(gcCodeTemplate).then(result => {
+          window.location.href = `https://testnet-wallet.gamechanger.finance/api/1/tx/${result}`;
+        });
+    }
+    const onLoginClick=(event)=>{
+        event.preventDefault();
+        window.location.href = `https://testnet-wallet.gamechanger.finance/api/1/address`;
+    }
+
+    const onCheckBoxChange= (field)=>(event)=>{
+        setValidValues({...validValues, [field]:event.target.checked});
+    }
+
+    const formIsValid = validValues.username && validValues.checkbox;
 
   return (
-    <Route {...rest} render={props => (
-      <>
-        <Preloader show={loaded ? false : true} />
-        <Sidebar />
+    <main>
+      <section className="d-flex align-items-center my-5 mt-lg-6 mb-lg-5">
+        <Container>
+          <p className="text-center">
+              <FontAwesomeIcon className="me-2" /> ¡Bienvenidos al Sevilla Cardano Summit 2021!
+          </p>
+          <Row className="justify-content-center form-bg-image" style={{ backgroundImage: `url(${BgImage})` }}>
+            <Col xs={12} className="d-flex align-items-center justify-content-center">
+              <div className="mb-4 mb-lg-0 bg-white shadow-soft border rounded border-light p-4 p-lg-5 w-100 fmxw-500">
+                <div className="text-center text-md-center mb-4 mt-md-0">
+                  <h3 className="mb-0">Mintea tu propio NFT de identidad para el evento</h3>
+                </div>
+                <Form className="mt-4">
+                  <Form.Group id="uuid" className="mb-4">
+                    <Form.Label>Id del Asistente</Form.Label>
+                    <InputGroup>
+                      <InputGroup.Text id="inputGroupPrepend">#
+                      </InputGroup.Text>
+                      <Form.Control autoFocus required disabled type="text" defaultValue={uuid}/>
+                    </InputGroup>
+                  </Form.Group>
+                </Form>
+                <Form className="mt-4">
+                  <Form.Group id="username" className="mb-4">
+                    <Form.Label>Usuario</Form.Label>
+                    <InputGroup >
+                      <InputGroup.Text id="inputGroupPrepend">@
+                      </InputGroup.Text>
+                      <Form.Control onChange={onValueChange("username")}  autoFocus required type="text" placeholder="PaquitoBridge123" />
+                    </InputGroup>
+                  </Form.Group>
+                </Form>
+                <Form className="mt-4">
+                  <Form.Group id="fullname" className="mb-4">
+                    <Form.Label>Nombre Completo (opcional)</Form.Label>
+                    <InputGroup  >
+                      <Form.Control onChange={onValueChange("fullname")} autoFocus type="text" placeholder="" />
+                    </InputGroup>
+                  </Form.Group>
+                  <FormCheck  type="checkbox" className="d-flex mb-4">
+                    <FormCheck.Input onChange={onCheckBoxChange("checkbox")} required id="terms" className="me-2" />
+                    <FormCheck.Label htmlFor="terms">
+                      Estoy de acuerdo en mintear <Card.Link> este NFT</Card.Link>
+                    </FormCheck.Label>
+                  </FormCheck>
 
-        <main className="content">
-          <Navbar />
-          <Component {...props} />
-          <Footer toggleSettings={toggleSettings} showSettings={showSettings} />
-        </main>
-      </>
-    )}
-    />
+                  <Button disabled={!formIsValid} onClick={onSubmit} variant="primary" type="submit" className="w-100">
+                    Sign up
+                  </Button>
+                </Form>
+                <div className="d-flex justify-content-center align-items-center mt-4">
+                  <span className="fw-normal">
+                    <p className="text-center">
+                    ¿Ya tienes una cuenta?
+                    </p>
+                    <Route exact path={Routes.Signin.path} component={ Signin } />     
+                    <Card.Link as={Link} onClick={onLoginClick} to={Routes.Signin.path} className="fw-bold">
+                      {` Haz login pulsando aquí! `}
+                    </Card.Link>
+                  </span>
+                </div>
+              </div>
+            </Col>
+          </Row>
+        </Container>
+      </section>
+    </main>
   );
 };
-
-export default () => (
-  <Switch>
-    <RouteWithLoader exact path={Routes.Presentation.path} component={Presentation} />
-    <RouteWithLoader exact path={Routes.Signin.path} component={Signin} />
-    <RouteWithLoader exact path={Routes.Signup.path} component={Signup} />
-    <RouteWithLoader exact path={Routes.ForgotPassword.path} component={ForgotPassword} />
-    <RouteWithLoader exact path={Routes.ResetPassword.path} component={ResetPassword} />
-    <RouteWithLoader exact path={Routes.Lock.path} component={Lock} />
-    <RouteWithLoader exact path={Routes.NotFound.path} component={NotFoundPage} />
-    <RouteWithLoader exact path={Routes.ServerError.path} component={ServerError} />
-
-    {/* pages */}
-    <RouteWithSidebar exact path={Routes.DashboardOverview.path} component={DashboardOverview} />
-    <RouteWithSidebar exact path={Routes.Upgrade.path} component={Upgrade} />
-    <RouteWithSidebar exact path={Routes.Transactions.path} component={Transactions} />
-    <RouteWithSidebar exact path={Routes.Settings.path} component={Settings} />
-    <RouteWithSidebar exact path={Routes.BootstrapTables.path} component={BootstrapTables} />
-
-    {/* components */}
-    <RouteWithSidebar exact path={Routes.Accordions.path} component={Accordion} />
-    <RouteWithSidebar exact path={Routes.Alerts.path} component={Alerts} />
-    <RouteWithSidebar exact path={Routes.Badges.path} component={Badges} />
-    <RouteWithSidebar exact path={Routes.Breadcrumbs.path} component={Breadcrumbs} />
-    <RouteWithSidebar exact path={Routes.Buttons.path} component={Buttons} />
-    <RouteWithSidebar exact path={Routes.Forms.path} component={Forms} />
-    <RouteWithSidebar exact path={Routes.Modals.path} component={Modals} />
-    <RouteWithSidebar exact path={Routes.Navs.path} component={Navs} />
-    <RouteWithSidebar exact path={Routes.Navbars.path} component={Navbars} />
-    <RouteWithSidebar exact path={Routes.Pagination.path} component={Pagination} />
-    <RouteWithSidebar exact path={Routes.Popovers.path} component={Popovers} />
-    <RouteWithSidebar exact path={Routes.Progress.path} component={Progress} />
-    <RouteWithSidebar exact path={Routes.Tables.path} component={Tables} />
-    <RouteWithSidebar exact path={Routes.Tabs.path} component={Tabs} />
-    <RouteWithSidebar exact path={Routes.Tooltips.path} component={Tooltips} />
-    <RouteWithSidebar exact path={Routes.Toasts.path} component={Toasts} />
-
-    {/* documentation */}
-    <RouteWithSidebar exact path={Routes.DocsOverview.path} component={DocsOverview} />
-    <RouteWithSidebar exact path={Routes.DocsDownload.path} component={DocsDownload} />
-    <RouteWithSidebar exact path={Routes.DocsQuickStart.path} component={DocsQuickStart} />
-    <RouteWithSidebar exact path={Routes.DocsLicense.path} component={DocsLicense} />
-    <RouteWithSidebar exact path={Routes.DocsFolderStructure.path} component={DocsFolderStructure} />
-    <RouteWithSidebar exact path={Routes.DocsBuild.path} component={DocsBuild} />
-    <RouteWithSidebar exact path={Routes.DocsChangelog.path} component={DocsChangelog} />
-
-    <Redirect to={Routes.NotFound.path} />
-  </Switch>
-);

@@ -9,17 +9,50 @@ import { Link } from 'react-router-dom';
 import { Routes } from "../../routes";
 import BgImage from "../../assets/img/illustrations/signin.svg";
 
+import Axios from 'axios';
+
+//function getGCaddress() {
+//
+//    const [address, setAddress] = useState("");
+//    const [loading, setLoading] = useState(true);
+//
+//    useEffect(() => {
+//        async function fetchData() {
+//            const request = await Axios.get('https://testnet-wallet.gamechanger.finance/api/1/address');
+//            console.log("@@@@@@", request.data)
+//            setAddress("address");
+//            setTimeout(() => {
+//                setLoading(false);
+//            }, 500);
+//            return request;
+//        }
+//        fetchData();
+//    }, []);
+//
+//    const myData = (
+//        <div className="container">
+//            <h1>
+//                address: {address}
+//            </h1>
+//        </div>
+//    );
+//
+//    const myLoader = (
+//        <div className="container">
+//            Loading...
+//        </div>
+//    );
+//
+//    return (loading ? myLoader : myData);
+//}
+
+
 
 export default () => {
   return (
     <main>
       <section className="d-flex align-items-center my-5 mt-lg-6 mb-lg-5">
         <Container>
-          <p className="text-center">
-            <Card.Link as={Link} to={Routes.DashboardOverview.path} className="text-gray-700">
-              <FontAwesomeIcon icon={faAngleLeft} className="me-2" /> Back to homepage
-            </Card.Link>
-          </p>
           <Row className="justify-content-center form-bg-image" style={{ backgroundImage: `url(${BgImage})` }}>
             <Col xs={12} className="d-flex align-items-center justify-content-center">
               <div className="bg-white shadow-soft border rounded border-light p-4 p-lg-5 w-100 fmxw-500">
@@ -28,12 +61,12 @@ export default () => {
                 </div>
                 <Form className="mt-4">
                   <Form.Group id="email" className="mb-4">
-                    <Form.Label>Your Email</Form.Label>
+                    <Form.Label>Your address</Form.Label>
                     <InputGroup>
                       <InputGroup.Text>
                         <FontAwesomeIcon icon={faEnvelope} />
                       </InputGroup.Text>
-                      <Form.Control autoFocus required type="email" placeholder="example@company.com" />
+                      <Form.Control autoFocus required type="email" placeholder="address" />
                     </InputGroup>
                   </Form.Group>
                   <Form.Group>
