@@ -143,13 +143,6 @@ export default () => {
         const validInput = checkValidationList(validatedList);
         setValidValues({...validValues, [field]:validInput});
 
-        console.log('Input:\t'+field);
-        console.log('Value:\t'+event.target.value);
-        console.log('List of validations:');
-        console.log(validatedList);
-        console.log('Is valid?');
-        console.log(validInput);
-    }
     const onSubmit=(event)=>{
         event.preventDefault();
         codec.compress(gcCodeTemplate).then(result => {
@@ -161,15 +154,8 @@ export default () => {
         setValidValues({...validValues, [field]:event.target.checked});
     }
 
-
-    console.log("Validators");
-    console.log(validValues.fullname);
-    console.log(validValues.username);
-    console.log(validValues.checkbox);
-
     const formIsValid = validValues.fullname && validValues.username && validValues.checkbox;
-    console.log("formIsValid");
-    console.log(formIsValid);
+
   return (
     <main>
       <section className="d-flex align-items-center my-5 mt-lg-6 mb-lg-5">

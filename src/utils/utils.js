@@ -6,7 +6,7 @@ export const inputMatchList = [
     },
     {
         text: ('charRange'),
-        expression: /.{2,64}/,
+        expression: /^.{2,64}$/,
         bool: false
     }
 ]
@@ -15,12 +15,16 @@ export const inputMatchList = [
  * input validation
  */
 export function inputValidate(input) {
-    return inputMatchList.map(v => {
-        v.bool = v.expression.test(input);
+    let list = inputMatchList.map(v => {
+        if (v.expression.test(input)) {
+            v.bool = true;
+        } else {
+            v.bool = false;
+        }
         return v;
-    });
+    })
+    return list
 }
-
 /**
  * Check final validation from validations list
  */
