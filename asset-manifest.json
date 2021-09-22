@@ -1,19 +1,19 @@
 {
   "files": {
     "main.css": "/cardano-summit-2021/static/css/main.7433b92b.chunk.css",
-    "main.js": "/cardano-summit-2021/static/js/main.af3a1446.chunk.js",
-    "main.js.map": "/cardano-summit-2021/static/js/main.af3a1446.chunk.js.map",
+    "main.js": "/cardano-summit-2021/static/js/main.17cd35fe.chunk.js",
+    "main.js.map": "/cardano-summit-2021/static/js/main.17cd35fe.chunk.js.map",
     "runtime-main.js": "/cardano-summit-2021/static/js/runtime-main.81a44c08.js",
     "runtime-main.js.map": "/cardano-summit-2021/static/js/runtime-main.81a44c08.js.map",
     "static/css/2.dc5ae6f7.chunk.css": "/cardano-summit-2021/static/css/2.dc5ae6f7.chunk.css",
-    "static/js/2.0933dcdf.chunk.js": "/cardano-summit-2021/static/js/2.0933dcdf.chunk.js",
-    "static/js/2.0933dcdf.chunk.js.map": "/cardano-summit-2021/static/js/2.0933dcdf.chunk.js.map",
+    "static/js/2.f177b881.chunk.js": "/cardano-summit-2021/static/js/2.f177b881.chunk.js",
+    "static/js/2.f177b881.chunk.js.map": "/cardano-summit-2021/static/js/2.f177b881.chunk.js.map",
     "index.html": "/cardano-summit-2021/index.html",
-    "precache-manifest.883235d7f8908b2b61ddceaea4765b86.js": "/cardano-summit-2021/precache-manifest.883235d7f8908b2b61ddceaea4765b86.js",
+    "precache-manifest.116a2a72a93a3839c4b7d005c3d9d8d0.js": "/cardano-summit-2021/precache-manifest.116a2a72a93a3839c4b7d005c3d9d8d0.js",
     "service-worker.js": "/cardano-summit-2021/service-worker.js",
     "static/css/2.dc5ae6f7.chunk.css.map": "/cardano-summit-2021/static/css/2.dc5ae6f7.chunk.css.map",
     "static/css/main.7433b92b.chunk.css.map": "/cardano-summit-2021/static/css/main.7433b92b.chunk.css.map",
-    "static/js/2.0933dcdf.chunk.js.LICENSE.txt": "/cardano-summit-2021/static/js/2.0933dcdf.chunk.js.LICENSE.txt",
+    "static/js/2.f177b881.chunk.js.LICENSE.txt": "/cardano-summit-2021/static/js/2.f177b881.chunk.js.LICENSE.txt",
     "static/media/404.svg": "/cardano-summit-2021/static/media/404.85064a97.svg",
     "static/media/404.jpg": "/cardano-summit-2021/static/media/404.9ba4b7cb.jpg",
     "static/media/500.jpg": "/cardano-summit-2021/static/media/500.192d8f70.jpg",
@@ -58,8 +58,8 @@
   "entrypoints": [
     "static/js/runtime-main.81a44c08.js",
     "static/css/2.dc5ae6f7.chunk.css",
-    "static/js/2.0933dcdf.chunk.js",
+    "static/js/2.f177b881.chunk.js",
     "static/css/main.7433b92b.chunk.css",
-    "static/js/main.af3a1446.chunk.js"
+    "static/js/main.17cd35fe.chunk.js"
   ]
 }
