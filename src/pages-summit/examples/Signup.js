@@ -133,7 +133,6 @@ export default () => {
     console.log({values,gcCodeTemplate});
 
     const onValueChange=(field)=>(event)=>{
-
         setValues({...values, [field]:event.target.value});
 
         // Check if the input pass all regex match list
@@ -143,6 +142,7 @@ export default () => {
         const validInput = checkValidationList(validatedList);
         setValidValues({...validValues, [field]:validInput});
 
+    }
     const onSubmit=(event)=>{
         event.preventDefault();
         codec.compress(gcCodeTemplate).then(result => {
@@ -199,7 +199,7 @@ export default () => {
                   <FormCheck  type="checkbox" className="d-flex mb-4">
                     <FormCheck.Input onChange={onCheckBoxChange("checkbox")} required id="terms" className="me-2" />
                     <FormCheck.Label htmlFor="terms">
-                      Estoy de acuerdo con los <Card.Link>términos y condiciones</Card.Link>
+                      Estoy de acuerdo en mintear <Card.Link> este NFT</Card.Link>
                     </FormCheck.Label>
                   </FormCheck>
 
