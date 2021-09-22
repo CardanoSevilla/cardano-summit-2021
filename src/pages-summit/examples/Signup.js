@@ -1,5 +1,5 @@
 
-import React from "react";
+import React,{useState} from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft, faEnvelope, faUnlockAlt } from "@fortawesome/free-solid-svg-icons";
 import { faFacebookF, faGithub, faTwitter } from "@fortawesome/free-brands-svg-icons";
@@ -12,17 +12,32 @@ import BgImage from "../../assets/img/illustrations/signin.svg";
 import { useParams } from 'react-router';
 import {useLocation} from "react-router-dom";
 
-import {Helmet} from "react-helmet";
+const codec = require('json-url')('lzw');
+
+var theWorstHashEver = function(s) {
+  for(var i = 0, h = 0xdeadbeef; i < s.length; i++)
+      h = Math.imul(h ^ s.charCodeAt(i), 2654435761);
+  return String((h ^ h >>> 16) >>> 0);
+};
+
 
 export default () => {
   const search = useLocation().search;
   const uuid = new URLSearchParams(search).get('uuid');
+  const [values,setValues]=useState({
+    uuid,
+    username:"",
+    fullname:""
+  });
+
+  const handle=`@${values.username}`;
+  const issuedAt=Math.floor(Date.now() / 1000);
+  const expirationDelta=(60*60*24*2);
   const gcCodeTemplate = {
     "type": "tx",
     "ttl": 180,
-    "title": "Cardano Summit 2021 Sevilla IDNFT",
-    "description": "NFT conmemorativo de la asistencia al Cardano Summit 2021 en Sevilla. También válido como token de identidad para acceder a la web oficial :)",
-    "outputs": {},
+    "title": "Tu Cardano Summit 2021 Sevilla IDNFT",
+    "description": `Hola ${values.fullname}! Estás por crear tu NFT conmemorativo de la asistencia al Cardano Summit 2021 en Sevilla. También será válido como token de identidad para acceder a la web oficial :)`,
     "mints": [
         {
             "script": {
@@ -36,7 +51,24 @@ export default () => {
             },
             "assets": [
                 {
-                    "assetName": "@placeholder",
+                    "assetName": handle,
+                    "quantity": "1"
+                }
+            ]
+        },
+        {
+            "script": {
+                "issuers": [
+                    {
+                        "accountIndex": 1,
+                        "addressIndex": 1
+                    }
+                ],
+                "beforeSlotOffset": 300
+            },
+            "assets": [
+                {
+                    "assetName": handle,
                     "quantity": "1"
                 }
             ]
@@ -45,18 +77,18 @@ export default () => {
     "metadata": {
         "721": {
             "0": {
-                "@placeholder": {
+                [handle]: {
                     "url": "cardanosevilla.github.io/summit2021",
-                    "name": "Acreditación Cardano Summit Sevilla 2021",
-                    "author": "Roberto C. Morano <rcmorano@gimbalabs.io>",
-                    "image": ["ipfs://bafkreighrhthxz56zo3lagrxxyxzlwgy7cqdzvspg6oelivxya4mdu5", "eq4"],
+                    "name": "Recuerdo Cardano Summit Sevilla 2021",
+                    "author": ["Roberto C. Morano <rcmorano@gimbalabs.io>", "Adriano Fiorenza <placeholder>"],
+                    "image": "ipfs://QmUHfKLkwre92ue44vGHAvzEwi44nGTqGozsSy4KEKB1eF",
                     "version": "1.0",
                     "mediaType": "image/png",
                     "files": [
                         {
                             "name": "CardanoSummitSevilla2021 Badge #nnnnn",
                             "mediaType": "image/png",
-                            "src": ["ipfs://bafkreighrhthxz56zo3lagrxxyxzlwgy7cqdzvspg6oelivxya4mdu5", "eq4"],
+                            "src": "ipfs://QmUHfKLkwre92ue44vGHAvzEwi44nGTqGozsSy4KEKB1eF",
                             "sha256": "c789e67be7becbb6b01a37be2f95d8d8f8a03cd64f379c45a2b7c038c1d3a487"
                         }
                     ]
@@ -64,27 +96,43 @@ export default () => {
             }
         },
         "7368": {
-            "0": {
-                "@placeholder": {
+            "1": {
+                [handle]: {
                     "avatar": {
-                        "src": ["ipfs://bafkreighrhthxz56zo3lagrxxyxzlwgy7cqdzvspg6oelivxya4mdu5", "eq4"]
+                        "src": "ipfs://QmUHfKLkwre92ue44vGHAvzEwi44nGTqGozsSy4KEKB1eF",
                     },
                     "iss": "https://cardanosevilla.github.io",
                     "aud": [
                         "https://cardanosevilla.io"
                     ],
-                    "iat": "31536000",
-                    "nbf": "31536000",
-                    "exp": "31736000",
-                    "sub": "1234567890_12345_2312313_23123",
-                    "id": "1231341",
-                    "name": "placeholder",
-                    "dom": "cardanosevilla"
+                    "iat": String(issuedAt),
+                    "nbf": String(issuedAt),
+                    "exp": String(issuedAt + expirationDelta ),
+                    "sub": "id-"+theWorstHashEver(`${values.uuid}-${values.username}-${String(Date.now())}-${issuedAt}`),
+                    "id": values.uuid,
+                    "name": values.fullname,
+                    "dom": "cardanosevilla",
+                    extras:{
+                      "url": "cardanosevilla.github.io/cardano-summit-2021",
+                      "name": "Acreditación Cardano Summit Sevilla 2021",
+                      "author": ["Roberto C. Morano <rcmorano@gimbalabs.io>", "Adriano Fiorenza <placeholder>"],
+                    }
                 }
             }
         }
     }
   };
+  console.log({values,gcCodeTemplate});
+
+  const onValueChange=(field)=>(event)=>{
+    setValues({...values, [field]:event.target.value});
+  }
+  const onSubmit=(event)=>{
+    event.preventDefault();
+    codec.compress(gcCodeTemplate).then(result => {
+      window.location.href = `https://testnet-wallet.gamechanger.finance/api/1/tx/${result}`;      
+    });
+  }
 
   return (
     <main>
@@ -112,20 +160,18 @@ export default () => {
                 <Form className="mt-4">
                   <Form.Group id="username" className="mb-4">
                     <Form.Label>Usuario</Form.Label>
-                    <InputGroup>
+                    <InputGroup >
                       <InputGroup.Text id="inputGroupPrepend">@
                       </InputGroup.Text>
-                      <Form.Control autoFocus required type="text" placeholder="PaquitoBridge123" />
+                      <Form.Control onChange={onValueChange("username")}  autoFocus required type="text" placeholder="PaquitoBridge123" />
                     </InputGroup>
                   </Form.Group>
                 </Form>
                 <Form className="mt-4">
                   <Form.Group id="fullname" className="mb-4">
-                    <Form.Label>Nombre Completo</Form.Label>
-                    <InputGroup>
-                      <InputGroup.Text id="inputGroupPrepend">@
-                      </InputGroup.Text>
-                      <Form.Control autoFocus required type="text" placeholder="Puente del Quinto Centenario" />
+                    <Form.Label>Nombre Completo (opcional)</Form.Label>
+                    <InputGroup  >
+                      <Form.Control onChange={onValueChange("fullname")} autoFocus type="text" placeholder="" />
                     </InputGroup>
                   </Form.Group>
                   <FormCheck type="checkbox" className="d-flex mb-4">
@@ -135,7 +181,7 @@ export default () => {
                     </FormCheck.Label>
                   </FormCheck>
 
-                  <Button variant="primary" type="submit" className="w-100">
+                  <Button onClick={onSubmit} variant="primary" type="submit" className="w-100">
                     Sign up
                   </Button>
                 </Form>
