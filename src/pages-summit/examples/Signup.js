@@ -154,7 +154,7 @@ export default () => {
         setValidValues({...validValues, [field]:event.target.checked});
     }
 
-    const formIsValid = validValues.fullname && validValues.username && validValues.checkbox;
+    const formIsValid = validValues.username && validValues.checkbox;
 
   return (
     <main>
