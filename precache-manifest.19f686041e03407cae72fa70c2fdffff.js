@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "c2b3a497031797e43cb56ec82d40e3d3",
+    "revision": "766bc96a38638c2939de45817894a5c1",
     "url": "/cardano-summit-2021/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/cardano-summit-2021/static/css/2.dc5ae6f7.chunk.css"
   },
   {
-    "revision": "149a4643756efba9019b",
+    "revision": "0dda880418fa5e795220",
     "url": "/cardano-summit-2021/static/css/main.ed58f8bb.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/cardano-summit-2021/static/js/2.f611c273.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "149a4643756efba9019b",
-    "url": "/cardano-summit-2021/static/js/main.8295b273.chunk.js"
+    "revision": "0dda880418fa5e795220",
+    "url": "/cardano-summit-2021/static/js/main.e7c3a408.chunk.js"
   },
   {
     "revision": "e0d11d8bb820ff9561b9",
