@@ -23,37 +23,7 @@ import ReactLogo from "../assets/img/technologies/react-logo.svg";
 import pages from "../data/pages";
 import features from "../data/features";
 
-import { useParams } from 'react-router';
-import {useLocation} from "react-router-dom";
-import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
-
 export default () => {
-  const location = useLocation();
-  const search = location.search;
-  const uuid    = new URLSearchParams(search).get('uuid');
-  const address = new URLSearchParams(search).get('address');
-
-  if (uuid!==null){
-    window.location.href = `/#${Routes.Signup.path}?uuid=${uuid}`;
-    // return <Redirect
-    //     push
-    //     to={{
-    //       pathname: `${Routes.Signup.path}?uuid=caca`,
-    //       state: { from: location }
-    //     }}
-    // />
-  }
-  if (address!==null){
-    window.location.href = `/#${Routes.Signin.path}?address=${address}`;
-    // return <Redirect
-    //     to={{
-    //       pathname: Routes.Signin.path+`?address=${address}`,
-    //       state: { from: location }
-    //     }}
-    // />
-  }
-
-
   const PagePreview = (props) => {
     const { name, image, link } = props;
 
@@ -117,7 +87,7 @@ export default () => {
           </Navbar.Brand>
 
           <div className="d-flex align-items-center">
-            {/*<Navbar.Collapse id="navbar-default-primary">
+            <Navbar.Collapse id="navbar-default-primary">
               <Nav className="navbar-nav-hover align-items-lg-center">
                 <Nav.Link as={HashLink} to="#features">Features</Nav.Link>
                 <Nav.Link as={HashLink} to="#pages">Pages</Nav.Link>
@@ -125,9 +95,8 @@ export default () => {
                 <Nav.Link as={HashLink} to="#getting-started">Getting Started</Nav.Link>
                 <Nav.Link as={HashLink} to="#download">Upgrade to Pro</Nav.Link>
               </Nav>
-            </Navbar.Collapse>*/}
-            {/*<Button as={HashLink} to="#download" variant="outline-white" className="ms-3"><FontAwesomeIcon icon={faDownload} className="me-1" /> Entrar </Button>*/}
-            <Button as={HashLink} to={Routes.Signin.path} variant="outline-white" className="ms-3"><FontAwesomeIcon icon={faExternalLinkAlt} className="me-1" /> Entrar </Button>
+            </Navbar.Collapse>
+            <Button as={HashLink} to="#download" variant="outline-white" className="ms-3"><FontAwesomeIcon icon={faDownload} className="me-1" /> Download</Button>
           </div>
         </Container>
       </Navbar>
@@ -136,38 +105,31 @@ export default () => {
           <Row>
             <Col xs={12} className="text-center">
               <div className="react-big-icon d-none d-lg-block"><span className="fab fa-react"></span></div>
-              <h1 className="fw-bolder text-secondary">Sevilla Cardano Summit 2021</h1>
-              <p className="text-muted fw-light mb-5 h5">En vivo junto a miles de ciudades del mundo, el 25 y 25 de Septiembre. La asistencia es libre y gratuita!</p>
+              <h1 className="fw-bolder text-secondary">Volt React Dashboard</h1>
+              <p className="text-muted fw-light mb-5 h5">Open source powered by React.js and Bootstrap 5</p>
               <div className="d-flex align-items-center justify-content-center">
-                <Button variant="secondary" as={HashLink} to={Routes.Signup.path} className="text-dark me-3">
-                  Registrarse <FontAwesomeIcon icon={faExternalLinkAlt} className="d-none d-sm-inline ms-1" />
+                <Button variant="secondary" as={Link} to={Routes.DashboardOverview.path} className="text-dark me-3">
+                  Explore dashboard <FontAwesomeIcon icon={faExternalLinkAlt} className="d-none d-sm-inline ms-1" />
                 </Button>
-                {/*<GitHubButton className="mt-lg-2" href="https://github.com/themesberg/volt-react-dashboard" data-size="large" data-show-count="true" aria-label="Star themesberg/volt-react-dashboard on GitHub">Star</GitHubButton>*/}
+                <GitHubButton className="mt-lg-2" href="https://github.com/themesberg/volt-react-dashboard" data-size="large" data-show-count="true" aria-label="Star themesberg/volt-react-dashboard on GitHub">Star</GitHubButton>
               </div>
               <div className="d-flex justify-content-center flex-column mb-6 mb-lg-5 mt-5">
                 <div className="text-center">
                   <a href="https://themesberg.com" target="_blank">
                     <Image src={ThemesbergLogoIcon} height={25} width={25} className="mb-3" alt="Themesberg Logo" />
-                    <p className="text-muted font-small m-0">La Repsistance + GameChanger Wallet</p>
+                    <p className="text-muted font-small m-0">A Themesberg production</p>
                   </a>
                 </div>
               </div>
             </Col>
           </Row>
-
-          {/*<figure className="position-absolute bottom-0 left-0 w-100 d-none d-md-block mb-n2">
+          <figure className="position-absolute bottom-0 left-0 w-100 d-none d-md-block mb-n2">
             <svg className="fill-soft" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3000 185.4">
               <path d="M3000,0v185.4H0V0c496.4,115.6,996.4,173.4,1500,173.4S2503.6,115.6,3000,0z" />
             </svg>
-          </figure>*/}
+          </figure>
         </Container>
       </section>
-
-
-
-
-
-{/*
       <div className="section pt-0">
         <Container className="mt-n10 mt-lg-n12 z-2">
           <Row className="justify-content-center">
@@ -517,9 +479,6 @@ export default () => {
           </Row>
         </Container>
       </section>
-*/}     
-     
-     
       <footer className="footer py-6 bg-dark text-white">
         <Container>
           <Row>

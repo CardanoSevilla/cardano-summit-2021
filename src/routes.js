@@ -1,7 +1,7 @@
 
 export const Routes = {
     // pages
-    //Presentation: { path: "/" },
+    Presentation: { path: "/" },
     DashboardOverview: { path: "/dashboard/overview" },
     Transactions: { path: "/transactions" },
     Settings: { path: "/settings" },
@@ -10,7 +10,7 @@ export const Routes = {
     Billing: { path: "/examples/billing" },
     Invoice: { path: "/examples/invoice" },
     Signin: { path: "/signin" },
-    Signup: { path: "/" },
+    Signup: { path: "/signup" },
     ForgotPassword: { path: "/examples/forgot-password" },
     ResetPassword: { path: "/examples/reset-password" },
     Lock: { path: "/examples/lock" },

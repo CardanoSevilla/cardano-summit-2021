@@ -1,17 +1,23 @@
+import React, { useState, useEffect } from 'react';
+import { Route, Switch, Redirect } from "react-router-dom";
+import { Routes } from "../routes";
 
-import React,{useState} from "react";
+import Signin from "./examples/Signin";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft, faEnvelope, faUnlockAlt } from "@fortawesome/free-solid-svg-icons";
 import { faFacebookF, faGithub, faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { Col, Row, Form, Card, Button, FormCheck, Container, InputGroup } from '@themesberg/react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import { Routes } from "../../routes";
-import BgImage from "../../assets/img/illustrations/signin.svg";
+import BgImage from "../assets/img/illustrations/signin.svg";
+import Preloader from "../components/Preloader";
 
 import { useParams } from 'react-router';
 import {useLocation} from "react-router-dom";
-import {checkValidationList, inputValidate} from "../../utils/utils";
+import {checkValidationList, inputValidate} from "../utils/utils";
+
+import { uuid as uuidV4 } from 'uuidv4';
 
 const codec = require('json-url')('lzw');
 
@@ -21,10 +27,22 @@ var theWorstHashEver = function(s) {
   return String((h ^ h >>> 16) >>> 0);
 };
 
+const RouteWithLoader = ({ component: Component, ...rest }) => {
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoaded(true), 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <Route {...rest} render={props => ( <> <Preloader show={loaded ? false : true} /> <Component {...props} /> </> ) } />
+  );
+};
 
 export default () => {
     const search = useLocation().search;
-    const uuid = new URLSearchParams(search).get('uuid');
+    const uuid = new URLSearchParams(search).get('uuid') || ("ext-"+uuidV4());
     const [values,setValues] = useState({
         uuid,
         username: "",
@@ -44,8 +62,9 @@ export default () => {
     const gcCodeTemplate = {
     "type": "tx",
     "ttl": 180,
-    "title": "Tu Cardano Summit 2021 Sevilla IDNFT",
-    "description": `Hola ${values.fullname}! Estás por crear tu NFT conmemorativo de la asistencia al Cardano Summit 2021 en Sevilla. También será válido como token de identidad para acceder a la web oficial :)`,
+    "title": `${handle} login a Cardano Summit 2021 Sevilla`,
+    "description": `Hola ${values.fullname}! Estás por crear tu NFT conmemorativo de la asistencia al Cardano Summit 2021 en Sevilla. Úsalo para acceder a la web oficial :)`,
+    "onSuccessURL": "/#/signin",
     "mints": [
         {
             "script": {
@@ -116,8 +135,8 @@ export default () => {
                     "iat": String(issuedAt),
                     "nbf": String(issuedAt),
                     "exp": String(issuedAt + expirationDelta ),
-                    "sub": values.uuid,
-                    "id": theWorstHashEver(`${values.uuid}-${values.username}-${issuedAt}`),
+                    "sub": values.uuid ,
+                    "id": theWorstHashEver(`${values.username}}`),
                     "name": values.fullname,
                     "dom": "cardanosevilla",
                     extras:{
@@ -128,9 +147,9 @@ export default () => {
                 }
             }
         }
-    }
+      }
     };
-    console.log({uuid,values,gcCodeTemplate});
+    console.log({values,gcCodeTemplate});
 
     const onValueChange=(field)=>(event)=>{
         setValues({...values, [field]:event.target.value});
@@ -148,6 +167,10 @@ export default () => {
         codec.compress(gcCodeTemplate).then(result => {
           window.location.href = `https://testnet-wallet.gamechanger.finance/api/1/tx/${result}`;
         });
+    }
+    const onLoginClick=(event)=>{
+        event.preventDefault();
+        window.location.href = `https://testnet-wallet.gamechanger.finance/api/1/address`;
     }
 
     const onCheckBoxChange= (field)=>(event)=>{
@@ -209,7 +232,10 @@ export default () => {
                 </Form>
                 <div className="d-flex justify-content-center align-items-center mt-4">
                   <span className="fw-normal">
+                    <p className="text-center">
                     ¿Ya tienes una cuenta?
+                    </p>
+                    <Route exact path={Routes.Signin.path} component={ Signin } />     
                     <Card.Link as={Link} to={Routes.Signin.path} className="fw-bold">
                       {` Haz login pulsando aquí! `}
                     </Card.Link>
