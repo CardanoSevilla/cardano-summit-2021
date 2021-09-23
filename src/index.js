@@ -19,6 +19,7 @@ import { HashRouter } from "react-router-dom";
 
 // core styles
 import "./scss/volt.scss";
+import "./scss/landing.scss";
 
 // vendor styles
 import "@fortawesome/fontawesome-free/css/all.css";
