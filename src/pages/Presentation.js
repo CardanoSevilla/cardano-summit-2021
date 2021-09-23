@@ -21,7 +21,7 @@ export default () => {
   const address = new URLSearchParams(search).get('address');
 
   if (uuid!==null){
-    window.location.href = `${PUBLIC_URL}/#${Routes.Signup.path}?uuid=${uuid}`;
+    window.location.href = `${process.env.PUBLIC_URL}/#${Routes.Signup.path}?uuid=${uuid}`;
     // return <Redirect
     //     push
     //     to={{
@@ -31,7 +31,7 @@ export default () => {
     // />
   }
   if (address!==null){
-    window.location.href = `${PUBLIC_URL}/#${Routes.Signin.path}?address=${address}`;
+    window.location.href = `${process.env.PUBLIC_URL}/#${Routes.Signin.path}?address=${address}`;
     // return <Redirect
     //     to={{
     //       pathname: Routes.Signin.path+`?address=${address}`,
