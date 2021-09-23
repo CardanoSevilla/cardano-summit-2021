@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/cardano-summit-2021/static/css/main.ed58f8bb.chunk.css",
-    "main.js": "/cardano-summit-2021/static/js/main.e7c3a408.chunk.js",
-    "main.js.map": "/cardano-summit-2021/static/js/main.e7c3a408.chunk.js.map",
+    "main.js": "/cardano-summit-2021/static/js/main.f1370802.chunk.js",
+    "main.js.map": "/cardano-summit-2021/static/js/main.f1370802.chunk.js.map",
     "runtime-main.js": "/cardano-summit-2021/static/js/runtime-main.81a44c08.js",
     "runtime-main.js.map": "/cardano-summit-2021/static/js/runtime-main.81a44c08.js.map",
     "static/css/2.dc5ae6f7.chunk.css": "/cardano-summit-2021/static/css/2.dc5ae6f7.chunk.css",
     "static/js/2.f611c273.chunk.js": "/cardano-summit-2021/static/js/2.f611c273.chunk.js",
     "static/js/2.f611c273.chunk.js.map": "/cardano-summit-2021/static/js/2.f611c273.chunk.js.map",
     "index.html": "/cardano-summit-2021/index.html",
-    "precache-manifest.19f686041e03407cae72fa70c2fdffff.js": "/cardano-summit-2021/precache-manifest.19f686041e03407cae72fa70c2fdffff.js",
+    "precache-manifest.376f85135d13f6009098537d66149470.js": "/cardano-summit-2021/precache-manifest.376f85135d13f6009098537d66149470.js",
     "service-worker.js": "/cardano-summit-2021/service-worker.js",
     "static/css/2.dc5ae6f7.chunk.css.map": "/cardano-summit-2021/static/css/2.dc5ae6f7.chunk.css.map",
     "static/css/main.ed58f8bb.chunk.css.map": "/cardano-summit-2021/static/css/main.ed58f8bb.chunk.css.map",
@@ -45,6 +45,6 @@
     "static/css/2.dc5ae6f7.chunk.css",
     "static/js/2.f611c273.chunk.js",
     "static/css/main.ed58f8bb.chunk.css",
-    "static/js/main.e7c3a408.chunk.js"
+    "static/js/main.f1370802.chunk.js"
   ]
 }
