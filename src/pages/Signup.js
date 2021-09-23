@@ -64,7 +64,7 @@ export default () => {
     "ttl": 180,
     "title": `${handle} login a Cardano Summit 2021 Sevilla`,
     "description": `Hola ${values.fullname}! Estás por crear tu NFT conmemorativo de la asistencia al Cardano Summit 2021 en Sevilla. Úsalo para acceder a la web oficial :)`,
-    "onSuccessURL": "/#/signin",
+    "onSuccessURL": `${process.env.PUBLIC_URL}/#/signin`,
     "mints": [
         {
             "script": {
