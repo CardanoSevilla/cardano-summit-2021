@@ -11,7 +11,9 @@ import BgImage from "../assets/img/illustrations/signin.svg";
 
 import {useLocation} from "react-router-dom";
 
-import Axios from 'axios';
+import axios from 'axios';
+import { uuid as uuidV4 } from 'uuidv4';
+const codec = require('json-url')('lzw');
 
 //function getGCaddress() {
 //
@@ -48,7 +50,141 @@ import Axios from 'axios';
 //    return (loading ? myLoader : myData);
 //}
 
+const apiURL="https://5-0-0.graphql-api.testnet.dandelion.link/";
+const assetFrag=`
+asset{
+    assetId
+    assetName
+    fingerprint
+    policyId
+}
+quantity  
+`;
 
+const utxoFrag=`
+address
+value
+txHash
+tokens{
+    ${assetFrag}
+  }
+`;
+const toHex=(bytes)=>Buffer.from(bytes).toString("hex");
+const fromHex=(hex)=>Buffer.from(hex,"hex").toString();
+const getUserDataByTxHash=(txHash)=>{
+    return axios({
+        url:apiURL,
+        method: 'post',
+        data: {
+          query: `
+            query GetTransaction {
+                transactions(
+                    limit:1
+                    where:{hash:{_eq:"${txHash}"}}
+                    ){
+                        blockIndex
+                        fee
+                        hash
+                        invalidBefore
+                        invalidHereafter
+                        includedAt
+                
+                        totalOutput
+                        deposit
+                        metadata{
+                            key
+                            value
+                        } 
+                        inputs{
+                            ${utxoFrag}
+                        }
+                        outputs{
+                            ${utxoFrag}
+                        }
+                        mint{
+                            ${assetFrag}         
+                        }
+            
+                    }
+
+              }
+            `
+        }
+      }).then((result) => {
+        console.log("TX:",result.data);
+        const data = result?.data?.data?.transactions[0];
+        const mints=data?.mint || [];
+        const outputs=data?.outputs || [];
+        const metadata=data?.metadata || [];
+        const idNftMint    =mints.find(x=>fromHex(x?.asset?.assetName).startsWith("@"))||{};
+        const idNftPolicyId =idNftMint?.asset?.policyId;
+        const idNftAssetName=fromHex(idNftMint?.asset?.assetName);
+        console.log({idNftPolicyId,idNftAssetName,metadata})
+        const idNftAssetNameHex=idNftMint?.asset?.assetName;
+        const idNftMetadata= metadata.find( x=>(x?.key==="7368" && x?.value[idNftPolicyId][idNftAssetName]?.dom==="cardanosevilla")) ||{};
+        const userData      =idNftMetadata?.value[idNftPolicyId][idNftAssetName]||{};
+        const findTheIdNftBetweenAssets=(assets)=>assets.find(x=>x?.asset?.assetName===idNftAssetNameHex && x?.asset?.policyId===idNftPolicyId)
+        let idNftOutput=null;    
+        let userAddress=null;    
+        outputs.forEach(output=>{
+            if(idNftOutput)
+                return;
+            const {address,tokens}=output||{};
+            const idNftOutputCandidate=findTheIdNftBetweenAssets(tokens)||null;
+            //console.log({idNftOutputCandidate,tokens,idNftPolicyId,idNftAssetNameHex})
+
+            if(idNftOutputCandidate){
+                idNftOutput=idNftOutputCandidate;      
+                userAddress=address;          
+            }
+        });
+        return {
+            hash:data?.hash,
+            includedAt:data?.includedAt,
+            policyId:idNftPolicyId,
+            assetName:idNftAssetName,
+            handle:idNftAssetName,
+            address:userAddress,
+            user:{...userData,/* inject virtuals here like username:handle@domain,etc.. */},
+        };
+      })
+      
+}
+
+const runProofOfInput=({userData,userAddress,policyId,assetName,fullname})=>{
+    const handle=userData?.handle;
+    const challenge=uuidV4();
+    localStorage.setItem('currentUser', JSON.stringify({
+        ...userData,
+        challenge,
+        loggedIn:false,
+    }));
+    const gcCodeTemplate = {
+        "type": "tx",
+        "ttl": 180,
+        "title": `Entrar como ${handle} a Cardano Summit 2021 Sevilla`,
+        "description": `Bienvenido de nuevo ${fullname}!, a continuación ejecuta esta económica transacción para volver a entrar (ProofOfInput)`,
+        "onSuccessURL": `${process.env.PUBLIC_URL}/#/startSession`,  
+        "outputs": {
+            [userAddress]: [
+                {
+                    "policyId": policyId,
+                    "assetName": assetName,
+                    "quantity": "1"
+                }
+            ]
+        },
+        "metadata": {
+            "56446": {
+                "challenge":challenge
+            }         
+        }
+    }
+    console.log({gcCodeTemplate})
+    codec.compress(gcCodeTemplate).then(result => {
+        window.location.href = `https://testnet-wallet.gamechanger.finance/api/1/tx/${result}`;
+    });
+}
 
 export default () => {
     const location = useLocation();
@@ -78,6 +214,27 @@ export default () => {
         //setValidValues({...validValues, [field]:validInput});
 
     }
+
+
+    const onSignIn=(e)=>{
+        console.log("Signing in..")
+        e.preventDefault();
+        getUserDataByTxHash(values.txHash)
+        .then(d=>{
+            console.log("UserData:",d);
+            runProofOfInput({
+                userData:d,
+                userAddress:d?.address,
+                policyId:d?.policyId,
+                assetName:d?.assetName,
+                fullname:d?.user?.name,
+            })
+        })
+        .catch(err=>{
+            console.error(err.message)
+        });
+    }
+
   return (
     <main>
       <section className="d-flex align-items-center my-5 mt-lg-6 mb-lg-5">
@@ -132,7 +289,7 @@ export default () => {
                     Connectar con GameChanger
                   </Button>*/}
                 {canLogin &&
-                  <Button href={gcGetAddrURL} variant="primary" type="submit" className="w-100">
+                  <Button onClick={onSignIn} variant="primary" type="button" className="w-100">
                     Entrar con GameChanger
                   </Button>}
                 </Form>

@@ -11,6 +11,7 @@ export const Routes = {
     Invoice: { path: "/examples/invoice" },
     Signin: { path: "/signin" },
     Signup: { path: "/signup" },
+    StartSession: { path: "/startSession" },
     ForgotPassword: { path: "/examples/forgot-password" },
     ResetPassword: { path: "/examples/reset-password" },
     Lock: { path: "/examples/lock" },

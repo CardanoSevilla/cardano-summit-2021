@@ -11,6 +11,7 @@ import Settings from "./Settings";
 import BootstrapTables from "./tables/BootstrapTables";
 import Signin from "./Signin";
 import Signup from "./Signup";
+import StartSession from "./StartSession";
 import ForgotPassword from "./examples/ForgotPassword";
 import ResetPassword from "./examples/ResetPassword";
 import Lock from "./examples/Lock";
@@ -103,6 +104,9 @@ export default () => (
     <RouteWithLoader exact path={Routes.Presentation.path} component={Presentation} />
     <RouteWithLoader exact path={Routes.Signin.path} component={Signin} />
     <RouteWithLoader exact path={Routes.Signup.path} component={Signup} />
+    <RouteWithLoader exact path={Routes.StartSession.path} component={StartSession} />
+
+
     <RouteWithLoader exact path={Routes.ForgotPassword.path} component={ForgotPassword} />
     <RouteWithLoader exact path={Routes.ResetPassword.path} component={ResetPassword} />
     <RouteWithLoader exact path={Routes.Lock.path} component={Lock} />

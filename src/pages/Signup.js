@@ -62,7 +62,7 @@ export default () => {
     const gcCodeTemplate = {
     "type": "tx",
     "ttl": 180,
-    "title": `${handle} login a Cardano Summit 2021 Sevilla`,
+    "title": `Signup de ${handle} a Cardano Summit 2021 Sevilla`,
     "description": `Hola ${values.fullname}! Estás por crear tu NFT conmemorativo de la asistencia al Cardano Summit 2021 en Sevilla. Úsalo para acceder a la web oficial :)`,
     "onSuccessURL": `${process.env.PUBLIC_URL}/#/signin`,
     "mints": [
@@ -78,7 +78,7 @@ export default () => {
             },
             "assets": [
                 {
-                    "assetName": handle,
+                    "assetName": `${handle} NFT`,
                     "quantity": "1"
                 }
             ]
@@ -104,7 +104,7 @@ export default () => {
     "metadata": {
         "721": {
             "0": {
-                [handle]: {
+                [`${handle} NFT`]: {
                     "url": "cardanosevilla.github.io/summit2021",
                     "name": "Recuerdo Cardano Summit Sevilla 2021",
                     "author": ["Roberto C. Morano <rcmorano@gimbalabs.io>", "Adriano Fiorenza <placeholder>"],

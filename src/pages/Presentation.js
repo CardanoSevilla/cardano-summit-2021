@@ -19,6 +19,14 @@ export default () => {
   const search = location.search;
   const uuid    = new URLSearchParams(search).get('uuid');
   const address = new URLSearchParams(search).get('address');
+  let currentUser
+  try{
+    currentUser=JSON.parse(localStorage.getItem('currentUser'));
+    console.log("CURRENT USER:",currentUser);
+  }catch(err){
+    currentUser={};
+  }
+  const loggedIn=currentUser?.loggedIn;
 
   if (uuid!==null){
     window.location.href = `${process.env.PUBLIC_URL}/#${Routes.Signup.path}?uuid=${uuid}`;
@@ -61,7 +69,6 @@ export default () => {
 
   const Feature = (props) => {
     const { title, description, icon } = props;
-
     return (
       <Col xs={12} sm={6} lg={3}>
         <Card className="bg-white shadow-soft text-primary rounded mb-4">
@@ -93,6 +100,11 @@ export default () => {
       </OverlayTrigger>
     );
   };
+  const onLogout=(e)=>{
+    e.preventDefault();
+    localStorage.removeItem ('currentUser');
+    window.location.href = `${process.env.PUBLIC_URL}/#/?loggedOut=true`;
+  }
 
   return (
     <>
@@ -105,7 +117,8 @@ export default () => {
 
           <div className="d-flex align-items-center">
             {/*<Button as={HashLink} to="#download" variant="outline-white" className="ms-3"><FontAwesomeIcon icon={faDownload} className="me-1" /> Entrar </Button>*/}
-            <Button as={HashLink} to={Routes.Signin.path} variant="outline-white" className="ms-3"><FontAwesomeIcon icon={faExternalLinkAlt} className="me-1" /> Entrar </Button>
+            {!loggedIn &&<Button as={HashLink} to={Routes.Signin.path} variant="outline-white" className="ms-3"><FontAwesomeIcon icon={faExternalLinkAlt} className="me-1" /> Entrar </Button>}
+            {loggedIn &&<Button onClick={onLogout} variant="outline-white" className="ms-3"><FontAwesomeIcon icon={faExternalLinkAlt} className="me-1" /> Cerrar sesion </Button>}
           </div>
         </Container>
       </Navbar>
@@ -116,9 +129,13 @@ export default () => {
               <h1 className="fw-bolder">Sevilla Cardano Summit 2021</h1>
               <p className="text-muted fw-light mb-5 h5">En vivo junto a miles de ciudades del mundo, el 25 y 25 de Septiembre. La asistencia es libre y gratuita!</p>
               <div className="d-flex align-items-center justify-content-center">
+                {!loggedIn &&
                 <Button variant="secondary" as={HashLink} to={Routes.Signup.path} className="text-dark me-3">
                   Registrarse <FontAwesomeIcon icon={faExternalLinkAlt} className="d-none d-sm-inline ms-1" />
-                </Button>
+                </Button>}
+                {loggedIn && 
+                  <h2 className="fw-bolder">Bienvenido {currentUser?.user.name}!</h2>
+                }
                 {/*<GitHubButton className="mt-lg-2" href="https://github.com/themesberg/volt-react-dashboard" data-size="large" data-show-count="true" aria-label="Star themesberg/volt-react-dashboard on GitHub">Star</GitHubButton>*/}
               </div>
               <div className="d-flex justify-content-center flex-column mb-6 mb-lg-5 mt-5">
