@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/cardano-summit-2021/precache-manifest.66b6e61e5d8af04b50b5d180b8a759d5.js"
+  "/cardano-summit-2021/precache-manifest.a98ad1996e03e51956c96a03c1f2f688.js"
 );
 
 self.addEventListener('message', (event) => {
