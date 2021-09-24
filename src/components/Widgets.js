@@ -63,16 +63,20 @@ export const ChoosePhotoWidget = (props) => {
   );
 };
 
-export const ProfileWidget = ({pic,handle,fullname,address}) => {
+export const ProfileWidget = ({pic,handle,fullname,address, policyId,assetName}) => {
   return (
     <Card border="light" className="text-center p-0 mb-4">
       <div style={{ backgroundImage: `url(${ProfileCover})` }} className="profile-cover rounded-top" />
       <Card.Body className="pb-5">
         <Card.Img src={pic} alt="Neil Portrait" className="user-avatar large-avatar rounded-circle mx-auto mt-n7 mb-4" />
         <Card.Title className="text-black" >{handle}</Card.Title>
-        <Card.Subtitle className="fw-normal text-black">{fullname}</Card.Subtitle>
-        <Card.Text className="text-black mb-4">{address}</Card.Text>
-
+        <Card.Subtitle className="fw-normal text-black mb-4">{fullname}</Card.Subtitle>
+        {/* <Card.Text className="text-black mb-4">{address}</Card.Text> */}
+        <ul className="text-black text-left mb-4" >
+          <li style={{fontSize:"0.6em"}} ><b>Address: </b>{address}</li>
+          <li style={{fontSize:"0.6em"}} ><b>PolicyId: </b>{policyId}</li>
+          <li style={{fontSize:"0.6em"}} ><b>AssetName: </b>{assetName}</li>
+        </ul>
         <Button as={HashLink} to={Routes.DevChallenge.path}  variant="primary" size="sm" className="me-2">
           <FontAwesomeIcon icon={faUserPlus} className="me-1" /> Resolver Challenge
         </Button>

@@ -14,6 +14,7 @@ import cardanoLogo from "../assets/img/technologies/Cardano-original-white.png";
 import peopleLogo from "../assets/img/illustrations/people.png";
 import {useLocation} from "react-router-dom";
 import {ProfileWidget} from "../components/Widgets"
+import GitHubButton from 'react-github-btn';
 
 
 export const truncate = function (fullStr, frontChars, backChars,separator) {
@@ -167,36 +168,41 @@ export default () => {
                 <Button variant="secondary" as={HashLink} to={Routes.Signup.path} className="text-dark me-3">
                   Registrarse <FontAwesomeIcon icon={faExternalLinkAlt} className="d-none d-sm-inline ms-1" />
                 </Button>}
-                {loggedIn && 
+                {/* {loggedIn && 
                   <>
-                    {/* <div className="d-flex flex-column justify-content-center user-avatar xl-avatar mt-3 mb-3 me-lg-3">
+                    <div className="d-flex flex-column justify-content-center user-avatar xl-avatar mt-3 mb-3 me-lg-3">
                       <Image fluid rounded src={imageUrlGetter(currentUser.user.avatar.src)} className="mt-15" />
                       <h3 className=" px-0 mx-0  w-100 fw-bolder">Bienvenido {currentUser?.user.name}!</h3>
-                    </div> */}
+                    </div> 
                     <h3 className=" px-0 mx-0  w-100 fw-bolder">Bienvenido {currentUser?.user.name}!</h3>
-
                   </>
-                }
-                {/*<GitHubButton className="mt-lg-2" href="https://github.com/themesberg/volt-react-dashboard" data-size="large" data-show-count="true" aria-label="Star themesberg/volt-react-dashboard on GitHub">Star</GitHubButton>*/}
+                } */}
               </div>
 
             </Col>
           </Row>
         </Container>
-        <Container>
+        {loggedIn &&<Container>
           <Row>
             <Col xs={12} className="text-center">
             <div>
+              <h3 className=" px-0 mx-0  w-100 fw-bolder">Bienvenido {currentUser?.user.name}!</h3>
+              <div className="d-flex flex-row justify-content-center w-100" >
+              <div style={{maxWidth:"600px"}}>
               <ProfileWidget
                 pic={imageUrlGetter(currentUser.user.avatar.src)}
                 handle={currentUser?.handle}
+                policyId={currentUser?.policyId}
+                assetName={currentUser?.assetName}
                 fullname={currentUser?.user?.name}
                 address={truncate(currentUser?.address||"",18,4,"...")}
               />
+              </div>
+              </div>
             </div>
             </Col>
           </Row>
-        </Container>
+        </Container>}
         <Container>
           <Row>
             <Col xs={12} className="text-center">
@@ -205,6 +211,8 @@ export default () => {
                   <a href="">
                     <FontAwesomeIcon icon={faUsersCog} className="me-1 landing-icon" />
                     <p className="text-muted font-small m-0">Made with ♥ by La Repsistance & GameChanger Wallet</p>
+                    <GitHubButton className="mt-lg-2" href="https://github.com/CardanoSevilla/cardano-summit-2021" data-size="large" data-show-count="true" aria-label="Star themesberg/volt-react-dashboard on GitHub">Star</GitHubButton>
+                  
                   </a>
                   <div>
                     <Image className="people-graphics" src={peopleLogo} />
