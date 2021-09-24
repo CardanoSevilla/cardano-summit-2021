@@ -14,6 +14,23 @@ import cardanoLogo from "../assets/img/technologies/Cardano-original-white.png";
 import peopleLogo from "../assets/img/illustrations/people.png";
 import {useLocation} from "react-router-dom";
 
+const imageUrlGetter=(_image)=>{
+  if(!_image)
+    return undefined;
+  let image=_image;
+  if(Array.isArray(_image)){
+    image=_image.join("");
+  }
+  if(image.startsWith("ipfs://")){
+    let temp=image.split("/");
+    return "https://ipfs.io/ipfs/"+temp[temp.length-1];
+  }
+  if(image.startsWith("https://")){
+    return image;
+  }
+  return undefined;
+}
+
 export default () => {
   const location = useLocation();
   const search = location.search;
@@ -134,7 +151,13 @@ export default () => {
                   Registrarse <FontAwesomeIcon icon={faExternalLinkAlt} className="d-none d-sm-inline ms-1" />
                 </Button>}
                 {loggedIn && 
-                  <h2 className="fw-bolder">Bienvenido {currentUser?.user.name}!</h2>
+                  <>
+                    <div className="d-flex flex-column justify-content-center user-avatar xl-avatar mt-3 mb-3 me-lg-3">
+                      <Image fluid rounded src={imageUrlGetter(currentUser.user.avatar.src)} className="mt-15" />
+                      <h2 className="fw-bolder">Bienvenido {currentUser?.user.name}!</h2>
+                    </div>
+                    
+                  </>
                 }
                 {/*<GitHubButton className="mt-lg-2" href="https://github.com/themesberg/volt-react-dashboard" data-size="large" data-show-count="true" aria-label="Star themesberg/volt-react-dashboard on GitHub">Star</GitHubButton>*/}
               </div>
