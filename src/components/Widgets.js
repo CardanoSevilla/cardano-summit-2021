@@ -4,13 +4,60 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faAngleUp, faChartArea, faChartBar, faChartLine, faFlagUsa, faFolderOpen, faGlobeEurope, faPaperclip, faUserPlus } from '@fortawesome/free-solid-svg-icons';
 import { faAngular, faBootstrap, faReact, faVuejs } from "@fortawesome/free-brands-svg-icons";
 import { Col, Row, Card, Image, Button, ListGroup, ProgressBar } from '@themesberg/react-bootstrap';
-import { CircleChart, BarChart, SalesValueChart, SalesValueChartphone } from "./Charts";
+import { create } from 'ipfs-http-client'
+import { useState } from 'react'
 
+import { CircleChart, BarChart, SalesValueChart, SalesValueChartphone } from "./Charts";
 import Profile1 from "../assets/img/team/profile-picture-1.jpg";
 import ProfileCover from "../assets/img/profile-cover.jpg";
-
 import teamMembers from "../data/teamMembers";
 
+const client = create('https://ipfs.infura.io:5001/api/v0');
+
+
+export const ChoosePhotoWidget = (props) => {
+  const [photo, updateFileUrl] = useState(``)
+  async function onChange(e) {
+    const file = e.target.files[0]
+    try {
+      const added = await client.add(file);
+      const url = `https://ipfs.io/ipfs/${added.path}`;
+      updateFileUrl(url);
+      if (props.onChange) {
+        props.onChange(added.path);
+      }
+    } catch (error) {
+      console.log('Error uploading file: ', error);
+    }  
+  }
+  const { title } = props;
+  return (
+    <Card border="light" className="bg-white shadow-sm mb-4">
+      <Card.Body>
+        <label className="form-label">{title}</label>
+        <div className="d-xl-flex align-items-center">
+          {photo && <div className="user-avatar xl-avatar">
+            <Image fluid rounded src={photo} />
+          </div>}
+          <div className="file-field">
+            <div className="d-flex justify-content-xl-center ms-xl-3">
+              <div className="d-flex">
+                <span className="icon icon-md">
+                  <FontAwesomeIcon icon={faPaperclip} className="me-3" />
+                </span>
+                <input type="file" onChange={onChange} />
+                <div className="d-md-block text-start">
+                  <div className="fw-normal text-dark mb-1">Choose Image</div>
+                  <div className="text-gray small">JPG, GIF or PNG. Max size of 800K</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Card.Body>
+    </Card>
+  );
+};
 
 export const ProfileCardWidget = () => {
   return (
@@ -31,36 +78,6 @@ export const ProfileCardWidget = () => {
   );
 };
 
-export const ChoosePhotoWidget = (props) => {
-  const { title, photo } = props;
-
-  return (
-    <Card border="light" className="bg-white shadow-sm mb-4">
-      <Card.Body>
-        <h5 className="mb-4">{title}</h5>
-        <div className="d-xl-flex align-items-center">
-          <div className="user-avatar xl-avatar">
-            <Image fluid rounded src={photo} />
-          </div>
-          <div className="file-field">
-            <div className="d-flex justify-content-xl-center ms-xl-3">
-              <div className="d-flex">
-                <span className="icon icon-md">
-                  <FontAwesomeIcon icon={faPaperclip} className="me-3" />
-                </span>
-                <input type="file" />
-                <div className="d-md-block text-start">
-                  <div className="fw-normal text-dark mb-1">Choose Image</div>
-                  <div className="text-gray small">JPG, GIF or PNG. Max size of 800K</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Card.Body>
-    </Card>
-  );
-};
 
 export const CounterWidget = (props) => {
   const { icon, iconColor, category, title, period, percentage } = props;

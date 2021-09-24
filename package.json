@@ -39,6 +39,8 @@
     "chartist": "^0.11.4",
     "chartist-plugin-tooltips-updated": "^0.1.4",
     "gh-pages": "^3.2.3",
+    "ipfs": "^0.59.0",
+    "ipfs-http-client": "^53.0.0",
     "json-url": "^3.0.0",
     "moment-timezone": "^0.5.31",
     "node-sass": "^4.14.1",

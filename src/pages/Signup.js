@@ -9,6 +9,7 @@ import { faAngleLeft, faEnvelope, faUnlockAlt } from "@fortawesome/free-solid-sv
 import { faFacebookF, faGithub, faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { Col, Row, Form, Card, Button, FormCheck, Container, InputGroup } from '@themesberg/react-bootstrap';
 import { Link } from 'react-router-dom';
+import { ChoosePhotoWidget, ProfileCardWidget } from "../components/Widgets";
 
 import BgImage from "../assets/img/illustrations/signin.svg";
 import Preloader from "../components/Preloader";
@@ -45,12 +46,14 @@ export default () => {
     const uuid = new URLSearchParams(search).get('uuid') || ("ext-"+uuidV4());
     const [values,setValues] = useState({
         uuid,
+        ipfsPath: "",
         username: "",
         fullname: "",
         checkbox: ""
     });
     const [validValues,setValidValues] = useState({
         uuid: true,
+        ipfsPath: false,
         username: false,
         fullname: false,
         checkbox: false
@@ -108,14 +111,14 @@ export default () => {
                     "url": "cardanosevilla.github.io/summit2021",
                     "name": "Recuerdo Cardano Summit Sevilla 2021",
                     "author": ["Roberto C. Morano <rcmorano@gimbalabs.io>", "Adriano Fiorenza <placeholder>"],
-                    "image": "ipfs://QmUHfKLkwre92ue44vGHAvzEwi44nGTqGozsSy4KEKB1eF",
+                    "image": `ipfs://${values.ipfsPath}`,
                     "version": "1.0",
                     "mediaType": "image/png",
                     "files": [
                         {
                             "name": "CardanoSummitSevilla2021 Badge #nnnnn",
                             "mediaType": "image/png",
-                            "src": "ipfs://QmUHfKLkwre92ue44vGHAvzEwi44nGTqGozsSy4KEKB1eF",
+                            "src": `ipfs://${values.ipfsPath}`,
                             "sha256": "c789e67be7becbb6b01a37be2f95d8d8f8a03cd64f379c45a2b7c038c1d3a487"
                         }
                     ]
@@ -126,7 +129,7 @@ export default () => {
             "0": {
                 [handle]: {
                     "avatar": {
-                        "src": "ipfs://QmUHfKLkwre92ue44vGHAvzEwi44nGTqGozsSy4KEKB1eF",
+                        "src": `ipfs://${values.ipfsPath}`,
                     },
                     "iss": "https://cardanosevilla.github.io",
                     "aud": [
@@ -177,6 +180,12 @@ export default () => {
         setValidValues({...validValues, [field]:event.target.checked});
     }
 
+    const onChangeAvatar = (evtPath) => {
+      debugger;
+      setValues({...values, 'ipfsPath': evtPath})
+      setValidValues({...validValues, 'ipfsPath': true});
+    }
+
     const formIsValid = validValues.username && validValues.checkbox && values.uuid!==null;
 
   return (
@@ -219,6 +228,10 @@ export default () => {
                       <Form.Control onChange={onValueChange("fullname")} autoFocus type="text" placeholder="" />
                     </InputGroup>
                   </Form.Group>
+                  <ChoosePhotoWidget
+                title="Añade un avatar"
+                onChange={onChangeAvatar}
+              />
                   <FormCheck  type="checkbox" className="d-flex mb-4">
                     <FormCheck.Input onChange={onCheckBoxChange("checkbox")} required id="terms" className="me-2" />
                     <FormCheck.Label htmlFor="terms">
