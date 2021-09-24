@@ -142,7 +142,7 @@ export default () => {
                 <div className="text-center">
                   <a href="">
                     <FontAwesomeIcon icon={faUsersCog} className="me-1 landing-icon" />
-                    <p className="text-muted font-small m-0">La Repsistance + GameChanger Wallet</p>
+                    <p className="text-muted font-small m-0">Made with ♥ by La Repsistance & GameChanger Wallet</p>
                   </a>
                   <div>
                     <Image className="people-graphics" src={peopleLogo} />

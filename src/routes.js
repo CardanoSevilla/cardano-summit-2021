@@ -12,6 +12,7 @@ export const Routes = {
     Signin: { path: "/signin" },
     Signup: { path: "/signup" },
     StartSession: { path: "/startSession" },
+    DevChallenge: { path: "/challenge" },
     ForgotPassword: { path: "/examples/forgot-password" },
     ResetPassword: { path: "/examples/reset-password" },
     Lock: { path: "/examples/lock" },

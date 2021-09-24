@@ -66,7 +66,7 @@ export default () => {
     "description": `Hola ${values.fullname}! Estás por crear tu NFT conmemorativo de la asistencia al Cardano Summit 2021 en Sevilla. Úsalo para acceder a la web oficial :)`,
     "onSuccessURL": `${process.env.PUBLIC_URL}/#/signin`,
     "mints": [
-        {
+        /*{
             "script": {
                 "issuers": [
                     {
@@ -82,7 +82,7 @@ export default () => {
                     "quantity": "1"
                 }
             ]
-        },
+        },*/
         {
             "script": {
                 "issuers": [
@@ -102,7 +102,7 @@ export default () => {
         }
     ],
     "metadata": {
-        "721": {
+        /*"721": {
             "0": {
                 [`${handle} NFT`]: {
                     "url": "cardanosevilla.github.io/summit2021",
@@ -121,9 +121,9 @@ export default () => {
                     ]
                 }
             }
-        },
+        },*/
         "7368": {
-            "1": {
+            "0": {
                 [handle]: {
                     "avatar": {
                         "src": "ipfs://QmUHfKLkwre92ue44vGHAvzEwi44nGTqGozsSy4KEKB1eF",
