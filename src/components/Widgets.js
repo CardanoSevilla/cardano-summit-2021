@@ -12,6 +12,10 @@ import Profile1 from "../assets/img/team/profile-picture-1.jpg";
 import ProfileCover from "../assets/img/profile-cover.jpg";
 import teamMembers from "../data/teamMembers";
 
+import { Routes } from "../routes";
+
+import { Link } from 'react-router-dom';
+import { HashLink } from 'react-router-hash-link';
 const client = create('https://ipfs.infura.io:5001/api/v0');
 
 
@@ -54,6 +58,25 @@ export const ChoosePhotoWidget = (props) => {
             </div>
           </div>
         </div>
+      </Card.Body>
+    </Card>
+  );
+};
+
+export const ProfileWidget = ({pic,handle,fullname,address}) => {
+  return (
+    <Card border="light" className="text-center p-0 mb-4">
+      <div style={{ backgroundImage: `url(${ProfileCover})` }} className="profile-cover rounded-top" />
+      <Card.Body className="pb-5">
+        <Card.Img src={pic} alt="Neil Portrait" className="user-avatar large-avatar rounded-circle mx-auto mt-n7 mb-4" />
+        <Card.Title className="text-black" >{handle}</Card.Title>
+        <Card.Subtitle className="fw-normal text-black">{fullname}</Card.Subtitle>
+        <Card.Text className="text-black mb-4">{address}</Card.Text>
+
+        <Button as={HashLink} to={Routes.DevChallenge.path}  variant="primary" size="sm" className="me-2">
+          <FontAwesomeIcon icon={faUserPlus} className="me-1" /> Resolver Challenge
+        </Button>
+        {/* <Button variant="secondary" size="sm">Send Message</Button> */}
       </Card.Body>
     </Card>
   );

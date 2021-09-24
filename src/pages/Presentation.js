@@ -13,6 +13,24 @@ import { Routes } from "../routes";
 import cardanoLogo from "../assets/img/technologies/Cardano-original-white.png";
 import peopleLogo from "../assets/img/illustrations/people.png";
 import {useLocation} from "react-router-dom";
+import {ProfileWidget} from "../components/Widgets"
+
+
+export const truncate = function (fullStr, frontChars, backChars,separator) {
+  if(!fullStr || !fullStr.substr )return "";
+  separator = separator || '...';
+
+  var fullLen     = fullStr.length,
+      sepLen      = separator.length,
+      charsToShow = frontChars +backChars + sepLen;
+
+  if (fullLen <= charsToShow){
+    return fullStr;
+  }
+  return fullStr.substr(0, frontChars) + 
+         separator + 
+         fullStr.substr(fullStr.length - backChars);
+};
 
 const imageUrlGetter=(_image)=>{
   if(!_image)
@@ -131,7 +149,6 @@ export default () => {
             <Image src={cardanoLogo} />
             <span className="ms-2 brand-text d-none d-md-inline">Cardano Summit</span>
           </Navbar.Brand>
-
           <div className="d-flex align-items-center">
             {/*<Button as={HashLink} to="#download" variant="outline-white" className="ms-3"><FontAwesomeIcon icon={faDownload} className="me-1" /> Entrar </Button>*/}
             {!loggedIn &&<Button as={HashLink} to={Routes.Signin.path} variant="outline-white" className="ms-3"><FontAwesomeIcon icon={faExternalLinkAlt} className="me-1" /> Entrar </Button>}
@@ -152,16 +169,38 @@ export default () => {
                 </Button>}
                 {loggedIn && 
                   <>
-                    <div className="d-flex flex-column justify-content-center user-avatar xl-avatar mt-3 mb-3 me-lg-3">
+                    {/* <div className="d-flex flex-column justify-content-center user-avatar xl-avatar mt-3 mb-3 me-lg-3">
                       <Image fluid rounded src={imageUrlGetter(currentUser.user.avatar.src)} className="mt-15" />
-                      <h2 className="fw-bolder">Bienvenido {currentUser?.user.name}!</h2>
-                    </div>
-                    
+                      <h3 className=" px-0 mx-0  w-100 fw-bolder">Bienvenido {currentUser?.user.name}!</h3>
+                    </div> */}
+                    <h3 className=" px-0 mx-0  w-100 fw-bolder">Bienvenido {currentUser?.user.name}!</h3>
+
                   </>
                 }
                 {/*<GitHubButton className="mt-lg-2" href="https://github.com/themesberg/volt-react-dashboard" data-size="large" data-show-count="true" aria-label="Star themesberg/volt-react-dashboard on GitHub">Star</GitHubButton>*/}
               </div>
-              <div className="d-flex justify-content-center flex-column mb-6 mb-lg-5 mt-5">
+
+            </Col>
+          </Row>
+        </Container>
+        <Container>
+          <Row>
+            <Col xs={12} className="text-center">
+            <div>
+              <ProfileWidget
+                pic={imageUrlGetter(currentUser.user.avatar.src)}
+                handle={currentUser?.handle}
+                fullname={currentUser?.user?.name}
+                address={truncate(currentUser?.address||"",18,4,"...")}
+              />
+            </div>
+            </Col>
+          </Row>
+        </Container>
+        <Container>
+          <Row>
+            <Col xs={12} className="text-center">
+            <div className="d-flex justify-content-center flex-column mb-6 mb-lg-5 mt-5">
                 <div className="text-center">
                   <a href="">
                     <FontAwesomeIcon icon={faUsersCog} className="me-1 landing-icon" />
@@ -171,7 +210,7 @@ export default () => {
                     <Image className="people-graphics" src={peopleLogo} />
                   </div>
                 </div>
-              </div>
+              </div>            
             </Col>
           </Row>
         </Container>
