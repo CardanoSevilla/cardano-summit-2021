@@ -237,11 +237,6 @@ export default () => {
                   />
                 )}
 
-                <NFTMinterWidget
-                  pic={imageUrlGetter(currentUser.user.avatar.src)}
-                  name={currentUser?.handle}
-                  author={currentUser?.handle}
-                />
               </div>
               </div>
             </div>
