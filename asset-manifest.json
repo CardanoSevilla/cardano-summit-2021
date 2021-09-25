@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/cardano-summit-2021/static/css/main.ed58f8bb.chunk.css",
-    "main.js": "/cardano-summit-2021/static/js/main.c378334a.chunk.js",
-    "main.js.map": "/cardano-summit-2021/static/js/main.c378334a.chunk.js.map",
+    "main.css": "/cardano-summit-2021/static/css/main.e3c3465d.chunk.css",
+    "main.js": "/cardano-summit-2021/static/js/main.83f264b8.chunk.js",
+    "main.js.map": "/cardano-summit-2021/static/js/main.83f264b8.chunk.js.map",
     "runtime-main.js": "/cardano-summit-2021/static/js/runtime-main.81a44c08.js",
     "runtime-main.js.map": "/cardano-summit-2021/static/js/runtime-main.81a44c08.js.map",
     "static/css/2.dc5ae6f7.chunk.css": "/cardano-summit-2021/static/css/2.dc5ae6f7.chunk.css",
-    "static/js/2.340c3307.chunk.js": "/cardano-summit-2021/static/js/2.340c3307.chunk.js",
-    "static/js/2.340c3307.chunk.js.map": "/cardano-summit-2021/static/js/2.340c3307.chunk.js.map",
+    "static/js/2.03501af0.chunk.js": "/cardano-summit-2021/static/js/2.03501af0.chunk.js",
+    "static/js/2.03501af0.chunk.js.map": "/cardano-summit-2021/static/js/2.03501af0.chunk.js.map",
     "index.html": "/cardano-summit-2021/index.html",
-    "precache-manifest.f0d1efe8b5e092040ce9048efc15ec1a.js": "/cardano-summit-2021/precache-manifest.f0d1efe8b5e092040ce9048efc15ec1a.js",
+    "precache-manifest.e2ed0158b487a96236b8e18fbf84d655.js": "/cardano-summit-2021/precache-manifest.e2ed0158b487a96236b8e18fbf84d655.js",
     "service-worker.js": "/cardano-summit-2021/service-worker.js",
     "static/css/2.dc5ae6f7.chunk.css.map": "/cardano-summit-2021/static/css/2.dc5ae6f7.chunk.css.map",
-    "static/css/main.ed58f8bb.chunk.css.map": "/cardano-summit-2021/static/css/main.ed58f8bb.chunk.css.map",
-    "static/js/2.340c3307.chunk.js.LICENSE.txt": "/cardano-summit-2021/static/js/2.340c3307.chunk.js.LICENSE.txt",
+    "static/css/main.e3c3465d.chunk.css.map": "/cardano-summit-2021/static/css/main.e3c3465d.chunk.css.map",
+    "static/js/2.03501af0.chunk.js.LICENSE.txt": "/cardano-summit-2021/static/js/2.03501af0.chunk.js.LICENSE.txt",
     "static/media/404.svg": "/cardano-summit-2021/static/media/404.85064a97.svg",
     "static/media/500.svg": "/cardano-summit-2021/static/media/500.a0320da1.svg",
     "static/media/bootstrap-5-logo.svg": "/cardano-summit-2021/static/media/bootstrap-5-logo.6aae84ab.svg",
@@ -43,8 +43,8 @@
   "entrypoints": [
     "static/js/runtime-main.81a44c08.js",
     "static/css/2.dc5ae6f7.chunk.css",
-    "static/js/2.340c3307.chunk.js",
-    "static/css/main.ed58f8bb.chunk.css",
-    "static/js/main.c378334a.chunk.js"
+    "static/js/2.03501af0.chunk.js",
+    "static/css/main.e3c3465d.chunk.css",
+    "static/js/main.83f264b8.chunk.js"
   ]
 }
