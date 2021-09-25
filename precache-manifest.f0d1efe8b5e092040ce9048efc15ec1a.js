@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "41890ff0a919e31af4a0c1620335af68",
+    "revision": "9ca229d18f9abb7c94d6780622cbe4dc",
     "url": "/cardano-summit-2021/index.html"
   },
   {
