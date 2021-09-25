@@ -1,0 +1,48 @@
+{
+    "type": "tx",
+    "ttl": 180,
+    "title": "NFT del Cardano Summit 2021",
+    "description": "Mintea tu propio NFT conmemorativo del Cardano Summit Sevilla 2021. La transacción será muy económica y obtendrás tu NFT en tu wallet en instantes!",
+    "mints": [
+        {
+            "script": {
+                "issuers": [
+                    {
+                        "accountIndex": 0,
+                        "addressIndex": 0
+                    }
+                ],
+                "beforeSlotOffset": 300
+            },
+            "assets": [
+                {
+                    "assetName": "GameChangerWallet #1",
+                    "quantity": "1"
+                }
+            ]
+        }
+    ],
+    "metadata": {
+        "721": {
+            "0": {
+                "GameChangerWallet #1": {
+                    "url":"https://gamechanger.finance",
+                    "name": "GameChangerWallet #1",
+                    "description": "NFT conmemorativo del Cardano Summit Sevilla 2021",
+                    "author": "GameChanger Wallet",
+                    "twitter":"https://twitter.com/GameChangerOk",
+                    "image": ["ipfs://bafkreibt3ycibagce74lczf46kcznf6rppznntqt6fhufmmahv5nmfp","pk4"],
+                    "version": "1.0",
+                    "mediaType": "image/jpg",
+                    "files": [
+                        {
+                            "name": "gc1.jpg",
+                            "mediaType": "image/jpg",
+                            "src": ["ipfs://bafkreibt3ycibagce74lczf46kcznf6rppznntqt6fhufmmahv5nmfp","pk4"]
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}

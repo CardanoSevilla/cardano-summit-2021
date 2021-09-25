@@ -1,0 +1,48 @@
+{
+    "type": "tx",
+    "ttl": 180,
+    "title": "NFT del Cardano Summit 2021",
+    "description": "Mintea tu propio NFT conmemorativo del Cardano Summit Sevilla 2021. La transacción será muy económica y obtendrás tu NFT en tu wallet en instantes!",
+    "mints": [
+        {
+            "script": {
+                "issuers": [
+                    {
+                        "accountIndex": 0,
+                        "addressIndex": 0
+                    }
+                ],
+                "beforeSlotOffset": 300
+            },
+            "assets": [
+                {
+                    "assetName": "CardanoSummitSevilla #2",
+                    "quantity": "1"
+                }
+            ]
+        }
+    ],
+    "metadata": {
+        "721": {
+            "0": {
+                "CardanoSummitSevilla #2": {
+                    "url":"https://cardanosevilla.github.io/cardano-summit-2021/",
+                    "name": "CardanoSummitSevilla #2",
+                    "description": "NFT conmemorativo del Cardano Summit Sevilla 2021",
+                    "author": "Repsistance",
+                    "twitter":"https://twitter.com/CardanoSevilla",
+                    "image": ["ipfs://bafkreigkk6r542xvimra2sbncczhoegfvma2jln44xgpliz2dfwovuf","ami"],
+                    "version": "1.0",
+                    "mediaType": "image/png",
+                    "files": [
+                        {
+                            "name": "sevilla2.png",
+                            "mediaType": "image/png",
+                            "src": ["ipfs://bafkreigkk6r542xvimra2sbncczhoegfvma2jln44xgpliz2dfwovuf","ami"]
+                        }
+                    ]
+                }
+            }
+        }
+    }
+}

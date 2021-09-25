@@ -18,7 +18,11 @@
         @include background-image(no-repeat, cover); 
         height: 200px;
     }
-
+    .nft-cover{
+        @include background-image(no-repeat, cover); 
+        height: 250px;
+        //width: 250px;
+    }
     @include media-breakpoint-up(lg) {
         &.timeline-card{
             &:before {

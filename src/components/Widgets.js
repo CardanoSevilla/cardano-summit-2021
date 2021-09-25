@@ -1,7 +1,7 @@
 
-import React from "react";
+import React, { useEffect } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown, faAngleUp, faChartArea, faChartBar, faChartLine, faFlagUsa, faFolderOpen, faGlobeEurope, faPaperclip, faUserPlus } from '@fortawesome/free-solid-svg-icons';
+import { faBookOpen,faAngleDown, faAngleUp, faChartArea, faChartBar, faChartLine, faFlagUsa, faFolderOpen, faGlobeEurope, faPaperclip, faUserPlus,faGift,faGifts } from '@fortawesome/free-solid-svg-icons';
 import { faAngular, faBootstrap, faReact, faVuejs } from "@fortawesome/free-brands-svg-icons";
 import { Col, Row, Card, Image, Button, ListGroup, ProgressBar } from '@themesberg/react-bootstrap';
 import { create } from 'ipfs-http-client'
@@ -17,6 +17,7 @@ import { Routes } from "../routes";
 import { Link } from 'react-router-dom';
 import { HashLink } from 'react-router-hash-link';
 const client = create('https://ipfs.infura.io:5001/api/v0');
+const codec = require('json-url')('lzw');
 
 
 export const ChoosePhotoWidget = (props) => {
@@ -62,6 +63,86 @@ export const ChoosePhotoWidget = (props) => {
     </Card>
   );
 };
+const imageUrlGetter=(_image)=>{
+  if(!_image)
+    return undefined;
+  let image=_image;
+  if(Array.isArray(_image)){
+    image=_image.join("");
+  }
+  if(image.startsWith("ipfs://")){
+    let temp=image.split("/");
+    return "https://ipfs.io/ipfs/"+temp[temp.length-1];
+  }
+  if(image.startsWith("https://")){
+    return image;
+  }
+  return undefined;
+}
+
+export const NFTMinterWidget = ({gcScript}) => {
+  const [urls,setUrls]=useState({
+    mainnet:"",
+    testnet:"",
+  })
+
+  useEffect(()=>{
+    if(!gcScript)
+      return null;
+    codec.compress(gcScript).then(result => {
+      setUrls({
+        mainnet:`https://wallet.gamechanger.finance/api/1/tx/${result}`,
+        testnet:`https://testnet-wallet.gamechanger.finance/api/1/tx/${result}`,
+      });
+      //window.location.href = `https://testnet-wallet.gamechanger.finance/api/1/tx/${result}`;
+    });
+  },[gcScript]);
+  
+  if(!gcScript)
+    return null;
+  const Metadata721=gcScript.metadata["721"]["0"];
+  const assetName=Object.keys(Metadata721)[0];
+  const metadata=Metadata721[assetName];
+  console.log({metadata})
+  const {
+    author,
+    image,
+    mediaType,
+    name,
+    url,
+    //files,
+    //version,
+  } = metadata || {};
+
+
+  return (
+    <Card border="light" className="d-inline-block text-center p-0 m-2 mb-4">
+      <div style={{ backgroundImage: `url(${imageUrlGetter(image)})` }} className="nft-cover rounded-top" />
+      <Card.Body className="pb-5">
+        <Card.Title className="text-black" >{name}</Card.Title>
+        <Card.Subtitle className="fw-normal text-black mb-4">by {author}</Card.Subtitle>
+        {/* <Card.Text className="text-black mb-4">{address}</Card.Text> */}
+        {/* <ul className="text-black text-left mb-4" >
+          <li style={{fontSize:"0.6em"}} ><b>Address: </b>{address}</li>
+          <li style={{fontSize:"0.6em"}} ><b>PolicyId: </b>{policyId}</li>
+          <li style={{fontSize:"0.6em"}} ><b>AssetName: </b>{assetName}</li>
+        </ul> */}
+        <div className="text-black text-center">
+          Mint on:
+        </div>
+        {urls.mainnet &&
+        <Button href={urls.mainnet}   variant="primary" size="sm" className="me-2">
+          <FontAwesomeIcon icon={faGift} className="me-1" />Mainnet
+        </Button>}
+        {urls.testnet &&
+        <Button href={urls.testnet}   variant="primary" size="sm" className="me-2">
+          <FontAwesomeIcon icon={faGift} className="me-1" />Testnet
+        </Button>}
+        {/* <Button variant="secondary" size="sm">Send Message</Button> */}
+      </Card.Body>
+    </Card>
+  );
+};
 
 export const ProfileWidget = ({pic,handle,fullname,address, policyId,assetName}) => {
   return (
@@ -78,7 +159,7 @@ export const ProfileWidget = ({pic,handle,fullname,address, policyId,assetName})
           <li style={{fontSize:"0.6em"}} ><b>AssetName: </b>{assetName}</li>
         </ul>
         <Button as={HashLink} to={Routes.DevChallenge.path}  variant="primary" size="sm" className="me-2">
-          <FontAwesomeIcon icon={faUserPlus} className="me-1" /> Resolver Challenge
+          <FontAwesomeIcon icon={faBookOpen} className="me-1" /> Resolver Challenge
         </Button>
         {/* <Button variant="secondary" size="sm">Send Message</Button> */}
       </Card.Body>

@@ -13,11 +13,27 @@ import { Routes } from "../routes";
 import cardanoLogo from "../assets/img/technologies/Cardano-original-white.png";
 import peopleLogo from "../assets/img/illustrations/people.png";
 import {useLocation} from "react-router-dom";
-import {ProfileWidget} from "../components/Widgets"
+import {ProfileWidget,NFTMinterWidget} from "../components/Widgets"
 import GitHubButton from 'react-github-btn';
 
 
-export const truncate = function (fullStr, frontChars, backChars,separator) {
+import GC1 from '../NFTs/GC1.json';
+import GC2 from '../NFTs/GC2.json';
+import GC3 from '../NFTs/GC3.json';
+import Sevilla1 from '../NFTs/Sevilla1.json';
+import Sevilla2 from '../NFTs/Sevilla2.json';
+
+
+const enableNftDrop=true;
+const NFTList=[
+  Sevilla1,
+  Sevilla2,
+  GC1,
+  GC2,
+  GC3,
+];
+
+const truncate = function (fullStr, frontChars, backChars,separator) {
   if(!fullStr || !fullStr.substr )return "";
   separator = separator || '...';
 
@@ -203,6 +219,39 @@ export default () => {
             </Col>
           </Row>
         </Container>}
+
+
+        {enableNftDrop && loggedIn &&<Container className=" mt-5">
+          <Row>
+            <Col xs={12} className="text-center">
+            <div>
+              <h4 className=" px-0 mx-0  w-100 fw-bolder">NFT's exclusivos para ti!</h4>
+              <div className="d-flex flex-row justify-content-center w-100" >
+              <div style={{maxWidth:"600px"}}>
+                {NFTList.map(nftGCScript=>
+                  <NFTMinterWidget
+                    gcScript={nftGCScript}
+                    pic={imageUrlGetter(currentUser.user.avatar.src)}
+                    name={currentUser?.handle}
+                    author={currentUser?.handle}
+                  />
+                )}
+
+                <NFTMinterWidget
+                  pic={imageUrlGetter(currentUser.user.avatar.src)}
+                  name={currentUser?.handle}
+                  author={currentUser?.handle}
+                />
+              </div>
+              </div>
+            </div>
+            </Col>
+          </Row>
+        </Container>}
+
+
+
+        
         <Container>
           <Row>
             <Col xs={12} className="text-center">
