@@ -229,12 +229,7 @@ export default () => {
               <div className="d-flex flex-row justify-content-center w-100" >
               <div style={{maxWidth:"600px"}}>
                 {NFTList.map(nftGCScript=>
-                  <NFTMinterWidget
-                    gcScript={nftGCScript}
-                    pic={imageUrlGetter(currentUser.user.avatar.src)}
-                    name={currentUser?.handle}
-                    author={currentUser?.handle}
-                  />
+                  <NFTMinterWidget gcScript={nftGCScript} />
                 )}
 
               </div>
